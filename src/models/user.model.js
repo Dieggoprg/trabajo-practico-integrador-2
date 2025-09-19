@@ -18,6 +18,8 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+},{
+    timestamps: true
 });
 
 export const UserModel = model("Users", userSchema);
