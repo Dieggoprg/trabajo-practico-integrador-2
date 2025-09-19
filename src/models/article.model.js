@@ -1,7 +1,7 @@
 //article model
 import { model, Schema, Types } from "mongoose";
 
-const Schema = new Schema(
+const articleSchema = new Schema(
   {
     title: {
       type: String,
@@ -42,3 +42,5 @@ const Schema = new Schema(
     timestamps: true
   }
 );
+
+export const ArticlesModel = model("Articles", articleSchema)
