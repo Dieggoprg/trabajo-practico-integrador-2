@@ -27,13 +27,13 @@ const articleSchema = new Schema(
     },
     author: {
       type: Types.ObjectId,
-      ref: "user",
+      ref: "User",
       required: true,
     },
     tags: [
       {
         type: Types.ObjectId,
-        ref: "tags",
+        ref: "Tags",
         required: true,
       },
     ],
