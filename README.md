@@ -1,2 +1,12 @@
 # trabajo-practico-integrador-2
-# trabajo-practico-integrador-2
+
+## INSTALACIÓN 
+1) clonar repositorio:
+```bash 
+git clone https://github.com/usuario/repositorio.git ;
+
+cd nombre-del-proyecto
+
+npm install
+
+
