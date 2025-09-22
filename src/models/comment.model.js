@@ -14,17 +14,14 @@ const commentSchema = new Schema(
       ref: "User",
       required: true,
     },
-    article: [
-      {
-        type: Types.ObjectId,
-        ref: "Articles",
-        required: true,
-      },
-    ],
+    article: {
+      type: [Types.ObjectId],
+      ref: "Articles",
+    },
   },
   {
     timestamps: true,
   }
 );
 
-export const CommentModel = model("Comments", commentSchema)
+export const CommentModel = model("Comments", commentSchema);
