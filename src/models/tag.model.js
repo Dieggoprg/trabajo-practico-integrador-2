@@ -7,12 +7,12 @@ const tagSchema = new Schema(
         type: String,
         required: true,
         unique: true,
-        milenght: 2,
-        maxlenght: 30,
+        minlength: 2,
+        maxlength: 30,
     },
     description: {
         type: String,
-        maxlenght: 200
+        maxlength: 200
     }
   },
   {
