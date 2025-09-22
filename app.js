@@ -1,7 +1,7 @@
 import "dotenv/config"
 import express from "express";
 import cors from "cors"
-// import { routes } from "./src/routes/indexRouter.js"
+import { routes } from "./src/routes/indexRoutes.js"
 import { connectDB } from "./src/config/database.js"
 
 const PORT = process.env.PORT
@@ -15,7 +15,7 @@ app.use(cors({
 
 
 //middleware de rutas
-// app.use("/api", routes)
+app.use("/api", routes)
 
 //test conection BD
 connectDB()

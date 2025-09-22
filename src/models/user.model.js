@@ -1,6 +1,31 @@
 //model user
 import { model, Schema } from "mongoose";
 
+const profileSchema = new Schema({
+  firstName: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlength: 50,
+  },
+  lastName: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlength: 50,
+  },
+  biography: {
+    type: String,
+    maxlenght: 500,
+  },
+  avatarUrl: {
+    type: String,
+  },
+  birthDate: {
+    type: Date,
+  },
+});
+
 const userSchema = new Schema(
   {
     username: {
@@ -8,12 +33,13 @@ const userSchema = new Schema(
       unique: true,
       required: true,
       minlength: 3,
-      maxlenght: 20,
+      maxlength: 20,
     },
 
     email: {
       type: String,
-      rquired: true,
+      required: true,
+      match: [/^\S+@\S+\.\S+$/, "El correo electrónico no es válido"],
     },
     password: {
       type: String,
@@ -24,30 +50,7 @@ const userSchema = new Schema(
       enum: ["user", "admin"],
       default: "user",
     },
-    profile: {
-      firstName: {
-        type: String,
-        required: true,
-        minlenght: 2,
-        maxlenght: 50,
-      },
-    },
-    lastName: {
-      type: String,
-      required: true,
-      minlenght: 2,
-      maxlenght: 50,
-    },
-    biography:{
-        type: String,
-        maxlenght: 500
-    },
-    avatarUrl: {
-        type: String,
-    },
-    birthDate: {
-        type: Date
-    }
+    profile: profileSchema,
   },
   {
     timestamps: true,
