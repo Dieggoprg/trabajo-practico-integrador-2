@@ -27,7 +27,7 @@ const articleSchema = new Schema(
     },
     author: {
       type: Types.ObjectId,
-      ref: "User",
+      ref: "Users",
       required: true,
     },
     tags: [
@@ -39,8 +39,8 @@ const articleSchema = new Schema(
     ],
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
-export const ArticlesModel = model("Articles", articleSchema)
+export const ArticlesModel = model("Articles", articleSchema);
