@@ -2,30 +2,7 @@
 import { UserModel } from "../models/user.model.js";
 
 //create
-export const createUsers = async (req, res) => {
-  const { username, email, password, role, profile } = req.body;
-
-  try {
-    const user = await UserModel.create({
-      username,
-      email,
-      password,
-      role,
-      profile,
-    });
-
-    return res.status(201).json({
-      ok: true,
-      msg: "User created",
-      data: user,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      ok: false,
-      msg: "Internal server error",
-    });
-  }
-};
+//ya no lo hago porque esto lo realizo en el Auth a la hora de Registrar 
 
 //getAll
 export const getAllUsers = async (req, res) => {

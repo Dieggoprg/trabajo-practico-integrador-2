@@ -12,6 +12,7 @@ export const ownerMiddleware = async (req, res, next) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 export const authorMiddleware = async (req, res, next) => {
   try {
     const article2 = await ArticlesModel.findByPk(req.params.id);

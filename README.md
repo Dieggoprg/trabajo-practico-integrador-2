@@ -2,7 +2,6 @@
 
 ## INSTALACIÓN 
 1) clonar repositorio:
-```bash 
 git clone https://github.com/usuario/repositorio.git ;
 
 cd nombre-del-proyecto

@@ -1,0 +1,71 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+- type       → Define el tipo de dato (String, Number, Boolean, Date, etc.)                             //
+- required   → Campo obligatorio                                                                        //
+- unique     → Valor único en la colección                                                              //
+- default    → Valor por defecto                                                                        //
+- trim       → Quita espacios en String                                                                 //
+- lowercase  → Convierte a minúsculas automáticamente                                                   //
+- uppercase  → Convierte a mayúsculas automáticamente                                                   //
+- minlength  → Longitud mínima de un String                                                             //
+- maxlength  → Longitud máxima de un String                                                             //
+- match      → Valida con una expresión regular                                                         //
+- min        → Valor numérico mínimo                                                                    //
+- max        → Valor numérico máximo                                                                    //
+                                                                                                        //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Operadores de Comparación
+
+// $eq → Igual a un valor //
+const eqExample = await UserModel.find({ username: { $eq: "admin" } });
+
+// $ne → Distinto a un valor //
+const neExample = await UserModel.find({ username: { $ne: "admin" } });
+
+// $gt → Mayor que un valor //
+const gtExample = await UserModel.find({ age: { $gt: 18 } });
+
+// $gte → Mayor o igual que un valor //
+const gteExample = await UserModel.find({ age: { $gte: 18 } });
+
+// $lt → Menor que un valor //
+const ltExample = await UserModel.find({ age: { $lt: 30 } });
+
+// $lte → Menor o igual que un valor //
+const lteExample = await UserModel.find({ age: { $lte: 30 } });
+
+// $in → Dentro de un conjunto de valores //
+const inExample = await UserModel.find({ username: { $in: ["juan", "maria", "pepe"] } });
+
+// $nin → Fuera de un conjunto de valores //
+const ninExample = await UserModel.find({ username: { $nin: ["admin", "root"] } });
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Operadores Lógicos
+
+// $or → Cumple al menos una condición //
+const orExample = await UserModel.find({
+  $or: [{ username: "juan" }, { email: "test@example.com" }]
+});
+
+// $and → Debe cumplir todas las condiciones //
+const andExample = await UserModel.find({
+  $and: [{ username: "juan" }, { email: "juan@example.com" }]
+});
+
+// $not → Niega una condición //
+const notExample = await UserModel.find({
+  username: { $not: { $eq: "admin" } }
+});
+
+// $nor → No cumple ninguna de las condiciones //
+const norExample = await UserModel.find({
+  $nor: [{ username: "juan" }, { email: "test@example.com" }]
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,5 +1,5 @@
 // import jwt from "jsonwebtoken"
-import { verifyToken } from "../helpers/jwt.helper.js";
+import { verifyToken } from "../../helpers/jwt.helper.js";
 
 
 export const authMiddleware = (req, res, next) => {

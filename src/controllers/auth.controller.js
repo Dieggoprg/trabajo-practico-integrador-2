@@ -7,13 +7,14 @@ export const register = async (req, res) => {
   const { username, email, password, role, profile } = req.body;
 
   const hashed = await hashPassword(password);
+  const roleLc = role.toLowerCase(); 
 
   try {
     const user = await UserModel.create({
-      username,
+      username, 
       email,
       password: hashed,
-      role,
+      role: roleLc,
       profile,
     });
 
@@ -83,6 +84,6 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-  res.clearCookie("token")
-  return res.json({ msg: "succesfull logout" })
+  res.clearCookie("token");
+  return res.json({ msg: "succesfull logout" });
 };
