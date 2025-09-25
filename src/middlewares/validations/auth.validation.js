@@ -1,4 +1,5 @@
-import { UserModel, ProfileModel } from "../../models/user.model.js";
+import { hashPassword } from "../../helpers/bcrypt.helper.js";
+import { UserModel } from "../../models/user.model.js";
 import { body, param } from "express-validator";
 
 export const registerValidation = [
@@ -50,10 +51,61 @@ export const registerValidation = [
     .withMessage("The role must be 'user' or 'admin'."),
 
   body("profile.firsName")
-  .notEmpty()
-  .withMessage("first name is required")
-  .isLength({min: 3, max: 50})
-  .withMessage("The username must be between 3 and 50 characters long")
+    .optional()
+    .trim()
+    .toLowerCase()
+    .isLength({ min: 3, max: 50 })
+    .withMessage("The first name must be between 3 and 50 characters long"),
 
-  
+  body("profile.lastName")
+    .optional()
+    .trim()
+    .toLowerCase()
+    .isLength({ min: 2, max: 50 })
+    .withMessage("The last name must be between 3 and 50 characters long"),
+
+  body("profile.biography")
+    .optional()
+    .isLength({ max: 500 })
+    .withMessage("The biography cannot exceed 500 characters"),
+
+  body("profile.avatarUrl")
+    .optional()
+    .isURL()
+    .withMessage("Must be a valid URL")
+    .matches(/^https?:\/\/.+\.(jpg|jpeg|png|gif|webp)$/)
+    .withMessage("El avatar debe ser una imagen válida (jpg, png, gif, webp)"),
+
+  body("profile.birthDate")
+    .optional()
+    .isISO8601()
+    .toDate()
+    .trim()
+    .withMessage("The date of birth must be in a valid format"),
+];
+
+export const loginValidation = [
+  body("username")
+    .notEmpty()
+    .withMessage("username is required")
+    .custom(async (username) => {
+      const user = await UserModel.findOne({ username });
+      if (!username) {
+        throw new Error("Invalid credentials");
+      }
+      return true;
+    }),
+
+  body("password")
+    .notEmpty()
+    .withMessage("password is required")
+    .custom(async (password) => {
+      const hashed = await hashPassword(password);
+      const passwordhash = await UserModel.findOne({ password: hashPassword });
+
+      if (!passwordhash) {
+        throw new Error("Invalid credentials");
+      }
+      return true;
+    }),
 ];
