@@ -1,6 +1,5 @@
-import { hashPassword } from "../../helpers/bcrypt.helper.js";
 import { UserModel } from "../../models/user.model.js";
-import { body, param } from "express-validator";
+import { body } from "express-validator";
 
 export const registerValidation = [
   body("username")
@@ -9,8 +8,8 @@ export const registerValidation = [
     .isLength({ min: 3, max: 20 })
     .withMessage("The username must be between 3 and 20 characters long")
     .custom(async (username) => {
-      const user = await UserModel.findOne({ username });
-      if (!user) {
+      const user = await UserModel.findOne({ username: username });
+      if (user) {
         throw new Error("The username is already in use");
       }
       return true;
@@ -23,8 +22,8 @@ export const registerValidation = [
     .isEmail()
     .withMessage("It must be a valid email")
     .custom(async (email) => {
-      const emailExist = await UserModel.findOne({ email });
-      if (!user) {
+      const emailExist = await UserModel.findOne({ email: email });
+      if (emailExist) {
         throw new Error("The Email is already in use");
       }
       return true;
@@ -36,8 +35,6 @@ export const registerValidation = [
     .trim()
     .isLength({ min: 8 })
     .withMessage("The password must be at least 8 characters long.")
-    .isAlphanumeric()
-    .withMessage("the password cannot contain spaces in between")
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/)
     .withMessage(
       "The password must contain at least one uppercase letter, one lowercase letter, and one number."
@@ -78,34 +75,13 @@ export const registerValidation = [
 
   body("profile.birthDate")
     .optional()
-    .isISO8601()
-    .toDate()
     .trim()
+    .isDate()
     .withMessage("The date of birth must be in a valid format"),
 ];
 
 export const loginValidation = [
-  body("username")
-    .notEmpty()
-    .withMessage("username is required")
-    .custom(async (username) => {
-      const user = await UserModel.findOne({ username });
-      if (!username) {
-        throw new Error("Invalid credentials");
-      }
-      return true;
-    }),
+  body("username").notEmpty().withMessage("username is required"),
 
-  body("password")
-    .notEmpty()
-    .withMessage("password is required")
-    .custom(async (password) => {
-      const hashed = await hashPassword(password);
-      const passwordhash = await UserModel.findOne({ password: hashPassword });
-
-      if (!passwordhash) {
-        throw new Error("Invalid credentials");
-      }
-      return true;
-    }),
+  body("password").notEmpty().withMessage("password is required"),
 ];
