@@ -16,7 +16,7 @@ const profileSchema = new Schema({
   },
   biography: {
     type: String,
-    maxlenght: 500,
+    maxlength: 500,
   },
   avatarUrl: {
     type: String,

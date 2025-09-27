@@ -1,8 +1,10 @@
 //user controller
 import { UserModel } from "../models/user.model.js";
+import { hashPassword } from "../helpers/bcrypt.helper.js"
 
 //create
 //ya no lo hago porque esto lo realizo en el Auth a la hora de Registrar 
+
 
 //getAll
 export const getAllUsers = async (req, res) => {
@@ -72,14 +74,17 @@ export const getByIdUser = async (req, res) => {
 export const updateUsers = async (req, res) => {
   const { username, email, password, role, profile } = req.body;
   const { id } = req.params;
+  const hashed = await hashPassword(password);
 
   try {
     const user = await UserModel.findByIdAndUpdate(id, {
       username,
       email,
-      password,
+      password: hashed,
       role,
       profile,
+    },{
+      new: true
     });
 
     return res.status(201).json({

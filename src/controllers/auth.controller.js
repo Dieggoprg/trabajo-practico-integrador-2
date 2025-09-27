@@ -2,19 +2,19 @@
 import { hashPassword, comparePassword } from "../helpers/bcrypt.helper.js"; // Importa comparePassword
 import { generateToken } from "../helpers/jwt.helper.js"; // Importa generateToken
 import { UserModel } from "../models/user.model.js";
+import { body, matchedData } from "express-validator";
 
 export const register = async (req, res) => {
   const { username, email, password, role, profile } = req.body;
 
   const hashed = await hashPassword(password);
-  const roleLc = role.toLowerCase(); 
 
   try {
     const user = await UserModel.create({
-      username, 
+      username,
       email,
       password: hashed,
-      role: roleLc,
+      role,
       profile,
     });
 
@@ -54,13 +54,14 @@ export const login = async (req, res) => {
       // Generar JWT
       const token = generateToken({
         id: user.id,
-        name: user.username, //Usar username en lugar de name y lastname
+        name: user.username,
+        role: user.role,
       });
       console.log(token);
 
       // Enviar token como cookie
       res.cookie("token", token, {
-        httpOnly: true, // No accesible desde JavaScript
+        httpOnly: true,
         maxAge: 1000 * 60 * 60, // 1 hora
       });
 
