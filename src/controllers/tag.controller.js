@@ -6,7 +6,7 @@ export const createTag = async (req, res) => {
   const { name, description } = req.body;
 
   try {
-    const tag = await TagsModel.create({
+    const newtag = await TagsModel.create({
       name,
       description,
     });
@@ -14,7 +14,7 @@ export const createTag = async (req, res) => {
     return res.status(201).json({
       ok: true,
       msg: "Tag created",
-      data: tag,
+      data: newtag,
     });
   } catch (error) {
     return res.status(500).json({
