@@ -61,6 +61,19 @@ const userSchema = new Schema(
   }
 );
 
+//virtual populate de articulos
+userSchema.virtual("articles", {
+  ref: "Article",
+  localField: "_id", // campo del usuario
+  foreignField: "author", // campo del Article que referencia al usuario
+});
+
+userSchema.virtual("comments", {
+  ref: "Comment",
+  localField: "_id", // campo del usuario
+  foreignField: "author", // campo comment que referencia al usuario
+});
+
 userSchema.pre(/^find/, function (next) {
   this.where({ deletedAt: null });
 

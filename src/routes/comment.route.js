@@ -1,5 +1,6 @@
 //comment route
 import { Router } from "express";
+import { mongoIdValidator } from "../middlewares/validator.js";
 import {
   getAllComments,
   createComments,
@@ -12,8 +13,8 @@ export const routeComment = Router();
 
 routeComment.post("/comments", createComments);
 routeComment.get("/comments", getAllComments);
-routeComment.get("/comment/:id", getByIdComment);
-routeComment.put("/comment/:id", updateComment);
+routeComment.get("/comment/:id",mongoIdValidator, getByIdComment);
+routeComment.put("/comment/:id",mongoIdValidator, updateComment);
 routeComment.delete(
   "/comment/:id",
   ownerMiddleware,
