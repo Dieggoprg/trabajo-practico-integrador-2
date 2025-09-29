@@ -3,6 +3,8 @@ import { body } from "express-validator";
 
 export const registerValidation = [
   body("username")
+    .exists()
+    .withMessage("The username field is required")
     .notEmpty()
     .withMessage("username is required")
     .isLength({ min: 3, max: 20 })
@@ -16,6 +18,8 @@ export const registerValidation = [
     }),
 
   body("email")
+    .exists()
+    .withMessage("The email field is required")
     .notEmpty()
     .withMessage("email is required")
     .trim()
@@ -30,6 +34,8 @@ export const registerValidation = [
     }),
 
   body("password")
+    .exists()
+    .withMessage("The password field is required")
     .notEmpty()
     .withMessage("Password is required")
     .trim()

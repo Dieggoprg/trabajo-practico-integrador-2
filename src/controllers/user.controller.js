@@ -1,17 +1,16 @@
 //user controller
 import { UserModel } from "../models/user.model.js";
-import { hashPassword } from "../helpers/bcrypt.helper.js"
+import { hashPassword } from "../helpers/bcrypt.helper.js";
 
 //create
-//ya no lo hago porque esto lo realizo en el Auth a la hora de Registrar 
-
+//ya no lo hago porque esto lo realizo en el Auth a la hora de Registrar
 
 //getAll
 export const getAllUsers = async (req, res) => {
   try {
     const users = await UserModel.find(
       {},
-      { _id: 0, password: 0, __v: 0, createdAt: 0, updatedAt: 0 }
+      { _id: 0, deletedAt: 0, password: 0, __v: 0, createdAt: 0, updatedAt: 0 }
     );
 
     if (!users) {
@@ -42,6 +41,7 @@ export const getByIdUser = async (req, res) => {
   try {
     const user = await UserModel.findById(id, {
       _id: 0,
+      deletedAt: 0,
       password: 0,
       __v: 0,
       createdAt: 0,
@@ -77,15 +77,19 @@ export const updateUsers = async (req, res) => {
   const hashed = await hashPassword(password);
 
   try {
-    const user = await UserModel.findByIdAndUpdate(id, {
-      username,
-      email,
-      password: hashed,
-      role,
-      profile,
-    },{
-      new: true
-    });
+    const user = await UserModel.findByIdAndUpdate(
+      id,
+      {
+        username,
+        email,
+        password: hashed,
+        role,
+        profile,
+      },
+      {
+        new: true,
+      }
+    );
 
     return res.status(201).json({
       ok: true,
@@ -104,13 +108,22 @@ export const updateUsers = async (req, res) => {
 export const deleteUser = async (req, res) => {
   const { id } = req.params;
   try {
-    await UserModel.findByIdAndDelete(id);
+    const user = await UserModel.findById(id);
+
+    if (!user) {
+      return res.status(404).json({
+        ok: false,
+        msg: "User not found",
+      });
+    }
+
+    // Soft delete
+    await user.softDelete();
 
     return res.status(200).json({
       ok: true,
       msg: "User deleted",
     });
-    
   } catch (error) {
     return res.status(500).json({
       ok: false,

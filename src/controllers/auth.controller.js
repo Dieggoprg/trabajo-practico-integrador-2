@@ -1,9 +1,9 @@
 //auth controller
 import { hashPassword, comparePassword } from "../helpers/bcrypt.helper.js"; // Importa comparePassword
 import { generateToken } from "../helpers/jwt.helper.js"; // Importa generateToken
-import { UserModel } from "../models/user.model.js";
-import { body, matchedData } from "express-validator";
+import { UserModel } from "../models/user.model.js"; //Importa el modelo de Usuario
 
+//listo para usar
 export const register = async (req, res) => {
   const { username, email, password, role, profile } = req.body;
 
@@ -30,6 +30,7 @@ export const register = async (req, res) => {
     });
   }
 };
+//listo para usar
 
 export const login = async (req, res) => {
   const { username, password } = req.body;
@@ -83,6 +84,7 @@ export const login = async (req, res) => {
     });
   }
 };
+//listo para usar
 
 export const logout = async (req, res) => {
   res.clearCookie("token");

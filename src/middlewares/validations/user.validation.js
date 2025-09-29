@@ -69,11 +69,11 @@ export const userUpdateValidations = [
     .matches(/^https?:\/\/.+\.(jpg|jpeg|png|gif|webp)$/)
     .withMessage("El avatar debe ser una imagen válida (jpg, png, gif, webp)"),
 
-  body("profile.birthDate")
+    body("profile.birthDate")
     .optional()
     .trim()
     .isDate()
-    .withMessage("The date of birth must be in a valid format"),
+    .withMessage("The date of birth must be in a valid format")
 ];
 
 //validation

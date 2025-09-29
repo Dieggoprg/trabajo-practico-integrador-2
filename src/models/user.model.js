@@ -51,10 +51,26 @@ const userSchema = new Schema(
       default: "user",
     },
     profile: profileSchema,
+    deletedAt: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,
   }
 );
+
+userSchema.pre(/^find/, function (next) {
+  this.where({ deletedAt: null });
+
+  next();
+});
+
+// Método para soft delete
+userSchema.methods.softDelete = async function () {
+  this.deletedAt = new Date();
+  await this.save();
+};
 
 export const UserModel = model("Users", userSchema);
